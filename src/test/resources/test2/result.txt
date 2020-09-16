@@ -1,0 +1,9 @@
+Order 0
+	Customer: Ola Nordmann
+	Shipping address: Tyriveien 12, 5000 Tyrili
+	Items:
+		Stol: 5 á 150 = 750
+		Bord: 1 á 1250 = 1250
+	Sum: 2000
+	Discount: 5.0%
+	Total: 1900

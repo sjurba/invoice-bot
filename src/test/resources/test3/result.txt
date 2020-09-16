@@ -1,0 +1,33 @@
+Order 0
+	Customer: Ola Nordmann
+	Shipping address: Tyriveien 12, 5000 Tyrili
+	Items:
+		Stol: 5 á 150 = 750
+		Bord: 1 á 1250 = 1250
+	Sum: 2000
+	Discount: 5.0%
+	Total: 1900
+Order 1
+	Customer: Kari Nordmann
+	Shipping address: Tyriveien 12, 5000 Tyrili
+	Items:
+		Sofa: 1 á 7000 = 7000
+	Sum: 7000
+	Discount: 5.0%
+	Total: 6650
+Order 2
+	Customer: Per Askeladd
+	Shipping address: Eventyrgata 13, 3020 Soria
+	Items:
+		Sykkel: 2 á 2000 = 4000
+	Sum: 4000
+	Discount: 0.0%
+	Total: 4000
+Order 3
+	Customer: Espen Askeladd
+	Shipping address: Eventyrgata 13, 3020 Soria
+	Items:
+		Sjumilsstøvler: 1 á 100 = 100
+	Sum: 100
+	Discount: 15.0%
+	Total: 85
