@@ -1,6 +1,5 @@
 import java.io.*;
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
 
 public class InvoiceBot {
 
@@ -13,20 +12,27 @@ public class InvoiceBot {
     }
 
     public void parseData() throws IOException {
-        Map<String, Customer> customers = parseFile("Customers.csv", Customer::new).collect(Collectors.toMap(customer -> customer.id, customer -> customer));
-        Map<String, Item> items = parseFile("Items.csv", Item::new).collect(Collectors.toMap(item -> item.id, item -> item));
-        var orders = parseFile("Orders.csv", Order::new).collect(Collectors.toList());
-        for (var order : orders) {
-            Customer customer = customers.get(order.customerId);
-            customer.addOrderLine(items.get(order.itemId), order.quantity);
+        List<Customer> customers = new FileParser<>(new CustomerBuilder()).parseFile(folder, "Customers.csv");
+        List<Item> items = new FileParser<>(new ItemBuilder()).parseFile(folder, "Items.csv");
+        List<Order> orders = new FileParser<>( new OrderBuilder()).parseFile(folder, "Orders.csv");
+        for (Customer customer : customers) {
+            for (Order order : orders) {
+                if (order.customerId.equals(customer.id)) {
+                    for (Item item : items) {
+                        if (order.itemId.equals(item.id)) {
+                            customer.addOrderLine(item, order.quantity);
+                        }
+                    }
+                }
+            }
         }
         printInvoice(customers);
     }
 
-    private void printInvoice(Map<String, Customer> customers) {
+    private void printInvoice(List<Customer> customers) {
         int i = 0;
         boolean found = false;
-        for (var customer: customers.values()) {
+        for (Customer customer: customers) {
             if (!customer.hasOrders()) continue;
             found = true;
             printer.print("Order " + i++);
@@ -35,23 +41,6 @@ public class InvoiceBot {
         if (!found) {
             printer.print("No orders");
         }
-    }
-
-    private <T> Stream<T> parseFile(String file, LineParser<T> lineParser) {
-        try {
-            return new BufferedReader(new FileReader(new File(folder, file)))
-                .lines()
-                .filter((line)->!line.startsWith("#"))
-                .map((line)-> lineParser.parseLine(line.split(";")));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @FunctionalInterface
-    interface LineParser<T> {
-
-        T parseLine(String[] parts);
     }
 
     public static void main(String[] args) throws Exception {
