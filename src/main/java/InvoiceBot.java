@@ -16,6 +16,7 @@ public class InvoiceBot {
         boolean foundOrders = false;
         String line;
         while ((line = reader.readLine()) != null) {
+            if (line.startsWith("#")) continue;
             foundOrders = true;
         }
         if (!foundOrders) {
